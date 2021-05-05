@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+    ports:
+      - "5432:5432"
+    networks:
+      - network-leleluia
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASS}
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres
+    networks:
+      - network-leleluia
+
+  redis:
+    image: redis
+    container_name: redis
+    environment:
+      POSTGRES_PASSWORD: ${REDIS_PASS}
+    ports:
+      - 6379:6379
+    networks:
+      - network-leleluia
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - network-leleluia
+
+networks:
+  network-leleluia:
+    driver: bridge
