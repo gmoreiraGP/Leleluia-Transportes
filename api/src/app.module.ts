@@ -1,28 +1,29 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SequelizeModule } from '@nestjs/sequelize';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { InvoiceController } from './controllers/invoice.controller';
-import { Invoice } from './models/invoice.model';
-import { InvoiceService } from './services/invoice.service';
+import { InvoiceModule } from './invoice/invoice.module';
+import { AddressModule } from './address/address.module';
+import { UsersModule } from './users/users.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [ ConfigModule.forRoot({
     envFilePath: '../.env'
-  }),SequelizeModule.forRoot({
-    dialect: 'postgres',
+  }),TypeOrmModule.forRoot({
+    type: 'postgres',
     host: process.env.POSTGRES_HOST,
     port: parseInt(process.env.POSTGRES_PORT),
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASS,
     database: process.env.POSTGRES_DATABASE,
-    autoLoadModels: true,
+    autoLoadEntities: true,
     synchronize: true
-  }),
-  SequelizeModule.forFeature([Invoice])
+  }), InvoiceModule, AddressModule, UsersModule, ProfileModule,
+  
 ],
-  controllers: [AppController, InvoiceController],
-  providers: [AppService, InvoiceService],
+  controllers: [AppController, ],
+  providers: [AppService, ],
 })
 export class AppModule {}
