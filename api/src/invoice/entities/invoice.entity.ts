@@ -1,5 +1,6 @@
 import { Address } from "../../address/entities/address.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/product/entities/product.entity";
 
 @Entity('invoice')
 export class Invoice {
@@ -29,7 +30,7 @@ export class Invoice {
         nullable: false ,
         default:  'separation'
     })
-    status: Status
+    status: EnumStatus
 
     @OneToOne(() => Address, {
         eager: true,
@@ -38,9 +39,18 @@ export class Invoice {
     @JoinColumn()
     address: Address
 
+    @OneToOne(() => Address, {
+        eager: true,
+        cascade: true,
+    })
+    @JoinColumn()
+    destiny: Address
+
+    @OneToMany(() => Product, product => product.invoice)
+    products: Product[];
 }
 
-enum Status {
+export enum EnumStatus {
     Separation = 'separation',
     Transit = 'transit',
     Delivered = 'delivered',

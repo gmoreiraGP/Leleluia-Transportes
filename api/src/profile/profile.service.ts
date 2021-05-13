@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class ProfileService {
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
+  constructor(
+    @InjectRepository(Profile)
+    private profileRepo: Repository<Profile>,
+  ){}
+
+  async create(createProfileDto: CreateProfileDto): Promise<Profile> {
+    const profile = await this.profileRepo.create(createProfileDto)
+  
+    return await this.profileRepo.save(profile)
   }
 
-  findAll() {
-    return `This action returns all profile`;
+  async findAll(): Promise<Profile[]> {
+    return await this.profileRepo.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profile`;
+  async findOne(id: string): Promise<Profile> {
+    return await this.profileRepo.findOne(id)
   }
 
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+  async update(id: string, updateProfileDto: UpdateProfileDto): Promise<Profile> {
+    const toUpdated = await this.profileRepo.findOne(id)
+    const profileUpdated = Object.assign(toUpdated, updateProfileDto)
+   
+    return await this.profileRepo.save(profileUpdated)
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  
+  async remove(id: string): Promise<DeleteResult> {
+    return await this.profileRepo.delete(id)
   }
 }

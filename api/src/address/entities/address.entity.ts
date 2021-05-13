@@ -44,10 +44,10 @@ export class Address {
         type: 'text',
         default: 'user-address'
     })
-    type: AddressType
+    type: EnumAddressType
 }
 
-enum AddressType {
+export enum EnumAddressType {
     UserAddress = 'user-address',
     CompanyAddress = 'company-address',
     DestinyAdress = 'destiny-address'

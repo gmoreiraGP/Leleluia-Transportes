@@ -1,4 +1,5 @@
 import { Address } from "src/address/entities/address.entity"
+import { User } from "src/users/entities/user.entity"
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()

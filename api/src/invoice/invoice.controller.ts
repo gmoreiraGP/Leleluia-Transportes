@@ -14,22 +14,22 @@ export class InvoiceController {
   }
 
   @Get()
-  findAll(): Promise<Invoice[]> {
-    return this.invoiceService.findAll();
+  async findAll(): Promise<Invoice[]> {
+    return await this.invoiceService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.invoiceService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.invoiceService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
-    return this.invoiceService.update(+id, updateInvoiceDto);
+  async update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
+    return await this.invoiceService.update(id, updateInvoiceDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.invoiceService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.invoiceService.remove(id);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { Invoice } from './entities/invoice.entity';
@@ -23,15 +23,18 @@ export class InvoiceService {
     return await this.invoiceRepo.find()
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} invoice`;
+  async findOne(id: string): Promise<Invoice> {
+    return await this.invoiceRepo.findOne(id)
   }
 
-  update(id: number, updateInvoiceDto: UpdateInvoiceDto) {
-    return `This action updates a #${id} invoice`;
+  async update(id: string, updateInvoiceDto: UpdateInvoiceDto): Promise<Invoice> {
+    const toUpdated = await this.invoiceRepo.findOne(id)
+    const profileUpdated = Object.assign(toUpdated, updateInvoiceDto)
+   
+    return await this.invoiceRepo.save(profileUpdated)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} invoice`;
+  async remove(id: string): Promise<DeleteResult> {
+    return await this.invoiceRepo.delete(id)
   }
 } 

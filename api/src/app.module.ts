@@ -7,6 +7,7 @@ import { InvoiceModule } from './invoice/invoice.module';
 import { AddressModule } from './address/address.module';
 import { UsersModule } from './users/users.module';
 import { ProfileModule } from './profile/profile.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [ ConfigModule.forRoot({
@@ -20,9 +21,7 @@ import { ProfileModule } from './profile/profile.module';
     database: process.env.POSTGRES_DATABASE,
     autoLoadEntities: true,
     synchronize: true
-  }), InvoiceModule, AddressModule, UsersModule, ProfileModule,
-  
-],
+  }), InvoiceModule, AddressModule, UsersModule, ProfileModule, ProductModule],
   controllers: [AppController, ],
   providers: [AppService, ],
 })

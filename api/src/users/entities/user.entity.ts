@@ -1,5 +1,5 @@
 import { Profile } from "src/profile/entities/profile.entity"
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm"
 
 @Entity('users')
 export class User {
